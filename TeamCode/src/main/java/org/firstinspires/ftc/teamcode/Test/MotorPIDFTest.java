@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.FtcLib.Hardware.FtcMotor.FtcPIDFCoefficien
 
 @TeleOp(name = "电机PIDF测试")
 
-public class Test extends OpMode {
+public class MotorPIDFTest extends OpMode {
 
     FtcMotor ftcMotor = new FtcMotor("m1",hardwareMap);
 
