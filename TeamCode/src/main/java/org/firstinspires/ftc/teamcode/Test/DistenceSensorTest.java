@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.FtcLib.Sensor.FtcDistenceSensor.FtcDistenceSensor;
+
+@TeleOp(name = "距离传感器测试", group = "测试")
 
 public class DistenceSensorTest extends OpMode {
 
