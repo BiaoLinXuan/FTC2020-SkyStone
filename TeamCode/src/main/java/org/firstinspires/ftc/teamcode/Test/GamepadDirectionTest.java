@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,7 +8,7 @@ import org.firstinspires.ftc.robotcore.internal.ui.GamepadUser;
 import org.firstinspires.ftc.teamcode.FtcLib.Sensor.FtcGamePad.DirectionFix;
 
 @TeleOp(name = "八方向测试", group = "测试")
-
+@Disabled
 public class GamepadDirectionTest extends OpMode {
     DirectionFix directionFix = null;
 
