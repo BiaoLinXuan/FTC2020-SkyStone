@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.FtcLib.Hardware.FtcMotor;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -7,16 +8,35 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
 public class FtcMotor {
-    public DcMotorEx motor = null;
+
+    public DcMotorEx motor;
     public FtcPIDFCoefficients.PIDFMode pidfMode = null;
 
     public FtcMotor(String name, HardwareMap hardwareMap) {
-        motor = hardwareMap.get(DcMotorEx.class, name);
+        motor =(DcMotorEx) hardwareMap.get(DcMotor.class, name);
     }
 
     public FtcMotor(String name, HardwareMap hardwareMap,FtcPIDFCoefficients ftcPIDFCoefficients) {
-        motor = hardwareMap.get(DcMotorEx.class, name);
+        motor = (DcMotorEx)hardwareMap.get(DcMotor.class, name);
         setMotor(ftcPIDFCoefficients);
+    }
+
+    public void setMotor(FtcPIDFCoefficients ftcPIDFCoefficients) {
+        this.pidfMode = ftcPIDFCoefficients.pidfMode;
+
+        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.POSITION) {
+            motor.setPositionPIDFCoefficients(ftcPIDFCoefficients.position_p);
+            motor.setVelocityPIDFCoefficients(ftcPIDFCoefficients.speed_p, ftcPIDFCoefficients.speed_i,
+                    ftcPIDFCoefficients.speed_d, ftcPIDFCoefficients.speed_f);
+        }
+        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.VELOCITY) {
+            motor.setVelocityPIDFCoefficients(ftcPIDFCoefficients.speed_p, ftcPIDFCoefficients.speed_i,
+                    ftcPIDFCoefficients.speed_d, ftcPIDFCoefficients.speed_f);
+            motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        }
+        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.OPENLOOP) {
+            motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        }
     }
 
     public void setReversed(boolean reversed) {
@@ -29,48 +49,46 @@ public class FtcMotor {
         else motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
 
+    public void setDisable(boolean disable){
+        if (disable) motor.setMotorDisable();
+        else motor.setMotorEnable();
+    }
+
     public void resetEncoder() {
         DcMotorEx.RunMode runMode = motor.getMode();
         motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(runMode);
     }
 
-    public void setMotor(FtcPIDFCoefficients ftcPIDFCoefficients) {
-        this.pidfMode = ftcPIDFCoefficients.pidfMode;
-
-        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.POSITION) {
-            motor.setPositionPIDFCoefficients(ftcPIDFCoefficients.position_p);
-            motor.setVelocityPIDFCoefficients(ftcPIDFCoefficients.speed_p, ftcPIDFCoefficients.speed_i,
-                    ftcPIDFCoefficients.speed_d, ftcPIDFCoefficients.speed_f);
-            motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        }
-        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.VELOCITY) {
-            motor.setVelocityPIDFCoefficients(ftcPIDFCoefficients.speed_p, ftcPIDFCoefficients.speed_i,
-                    ftcPIDFCoefficients.speed_d, ftcPIDFCoefficients.speed_f);
-            motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        }
-        if (ftcPIDFCoefficients.pidfMode == FtcPIDFCoefficients.PIDFMode.OPENLOOP) {
-            motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        }
+    public int getEncoder() {
+        return motor.getCurrentPosition();
     }
 
     public void setSpeed(double degreePerSec) {
         motor.setVelocity(degreePerSec, AngleUnit.DEGREES);
     }
 
+    public double getSpeed(){
+        return motor.getVelocity(AngleUnit.DEGREES);
+    }
+
+    public void setPower(double power){
+        motor.setPower(power);
+    }
+    public double getPower(){
+        return motor.getPower();
+    }
+
     public void setRotateTo(double degreePerSec, int target) {
-        motor.setVelocity(degreePerSec, AngleUnit.DEGREES);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(target);
+        motor.setVelocity(degreePerSec, AngleUnit.DEGREES);
     }
 
     public void setRotateFor(double degreePerSec, int target) {
         motor.setVelocity(degreePerSec, AngleUnit.DEGREES);
         motor.setTargetPosition(motor.getCurrentPosition() + target);
-    }
-
-    public void setDisable(boolean disable){
-        if (disable) motor.setMotorDisable();
-        else motor.setMotorEnable();
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     public void stop(){
@@ -82,4 +100,9 @@ public class FtcMotor {
             motor.setPower(0);
         }
     }
+
+    public boolean isRunning(){
+        return motor.isBusy();
+    }
+
 }
