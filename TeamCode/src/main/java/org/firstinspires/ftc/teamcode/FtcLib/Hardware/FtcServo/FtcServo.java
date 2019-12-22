@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class FtcServo {
 
     public Servo servo = null;
-    public double maxAngle = 0;
+    public double maxAngle;
 
     public FtcServo(String name, HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, name);
