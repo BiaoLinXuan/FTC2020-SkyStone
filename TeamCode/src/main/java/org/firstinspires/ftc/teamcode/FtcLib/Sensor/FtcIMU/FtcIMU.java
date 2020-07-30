@@ -24,17 +24,23 @@ public class FtcIMU {
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.useExternalCrystal = true;
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hardwareMap.get(BNO055IMU.class, name);
         imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(),new Velocity(),10);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1);
     }
 
     public void resetReference() {
         reference = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
+    public void reset() {
+        imu.stopAccelerationIntegration();
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1);
+    }
+
     public float getYaw() {
-        float rotation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - reference;;
+        float rotation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - reference;
+        ;
         if (Math.abs(rotation) > 180) {
             if (reference >= 0) rotation += 360;
             if (reference < 0) rotation -= 360;
@@ -46,13 +52,13 @@ public class FtcIMU {
         return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
-    public Vector2D getSpeedVector(){
+    public Vector2D getSpeedVector() {
         Velocity velocity = imu.getVelocity();
-        return new Vector2D(velocity.xVeloc,velocity.yVeloc);
+        return new Vector2D(velocity.xVeloc, velocity.yVeloc);
     }
 
-    public Vector2D getPositionVector(){
+    public Vector2D getPositionVector() {
         Position position = imu.getPosition();
-        return new Vector2D(position.x,position.y);
+        return new Vector2D(position.x, position.y);
     }
 }

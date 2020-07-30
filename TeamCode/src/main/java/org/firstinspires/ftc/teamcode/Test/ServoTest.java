@@ -13,30 +13,15 @@ public class ServoTest extends OpMode {
 
     @Override
     public void init() {
-        ftcServo = new FtcServo("s1", hardwareMap);
-        ftcServo.setAngle(0);
-        sleep(1000);
-        ftcServo.setAngle(45);
-        sleep(1000);
-        ftcServo.setAngle(90);
-        sleep(1000);
-        ftcServo.setAngle(135);
-        sleep(1000);
-        ftcServo.setAngle(180);
-        sleep(3000);
+        ftcServo = new FtcServo("pull1", hardwareMap);
     }
 
     @Override
     public void loop() {
         ftcServo.servo.setPosition(gamepad1.left_stick_y);
+        telemetry.addData("pos",gamepad1.left_stick_y*180);
+
     }
 
-    private void sleep(int ms) {
-        try {
-            Thread.sleep(ms);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }

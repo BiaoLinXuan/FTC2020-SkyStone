@@ -80,8 +80,8 @@ public class FtcMotor {
     }
 
     public void setRotateTo(double degreePerSec, int target) {
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(target);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(degreePerSec, AngleUnit.DEGREES);
     }
 

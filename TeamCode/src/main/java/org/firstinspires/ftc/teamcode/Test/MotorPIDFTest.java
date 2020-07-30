@@ -16,14 +16,14 @@ public class MotorPIDFTest extends OpMode {
 
     @Override
     public void init() {
-        ftcMotor = new FtcMotor("m1", hardwareMap,FtcPIDFCoefficientsTable.CHASSIS_POSITION);
+        ftcMotor = new FtcMotor("m1", hardwareMap,FtcPIDFCoefficientsTable.CHASSIS_VELOCITY);
+        ftcMotor.setBrake(true);
         ftcMotor.resetEncoder();
-        ftcMotor.setRotateTo(0, 5000);
     }
 
     @Override
     public void loop() {
-        ftcMotor.motor.setVelocity(1000, AngleUnit.DEGREES);
-        telemetry.addData("r",ftcMotor.isRunning());
+        ftcMotor.motor.setVelocity(gamepad1.left_stick_y*250, AngleUnit.DEGREES);
+
     }
 }

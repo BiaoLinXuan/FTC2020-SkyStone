@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.FtcLib.SubSystem.InTake;
 import org.firstinspires.ftc.teamcode.FtcLib.Hardware.FtcMotor.FtcMotor;
 
 public class InTake {
-    public FtcMotor left, right;
+    private FtcMotor left, right;
     public double maxSpeed;
 
     public InTake(FtcMotor left, FtcMotor right, double maxSpeed) {
@@ -28,6 +28,12 @@ public class InTake {
         right.setDisable(false);
         left.setSpeed(speed);
         right.setSpeed(speed);
+    }
+    public void start(double lspeed,double rspeed){
+        left.setDisable(false);
+        right.setDisable(false);
+        left.setSpeed(lspeed);
+        right.setSpeed(rspeed);
     }
     public void stop(){
         left.setSpeed(0);

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.FtcLib.Hardware.FtcMotor.FtcPIDFCoefficien
 import org.firstinspires.ftc.teamcode.FtcLib.SubSystem.InTake.InTake;
 
 @TeleOp(name = "吸纳测试",group = "测试")
+@Disabled
 
 public class InTakeTest extends OpMode {
     FtcMotor left, right;

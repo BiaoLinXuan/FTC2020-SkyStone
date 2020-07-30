@@ -46,7 +46,7 @@ public class PidController {
         if (i > iMax) i = iMax;
         if (d > dMax) d = dMax;
         lastTime = elapsedTime.milliseconds();
-        return p + i + d;
+        return p + i - d;
     }
 
     public void reset() {

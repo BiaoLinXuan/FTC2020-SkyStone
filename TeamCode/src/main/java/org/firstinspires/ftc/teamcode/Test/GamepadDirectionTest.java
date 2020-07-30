@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.internal.ui.GamepadUser;
-import org.firstinspires.ftc.teamcode.FtcLib.Sensor.FtcGamePad.DirectionFix;
+import org.firstinspires.ftc.teamcode.FtcLib.Algorithm.ConvertAxes2D.Vector2D;
+import org.firstinspires.ftc.teamcode.FtcLib.Algorithm.GamePadDirectionFix.DirectionFix;
+import org.firstinspires.ftc.teamcode.FtcLib.Algorithm.GamePadDirectionFix.DirectionFixMode;
 
 @TeleOp(name = "八方向测试", group = "测试")
 @Disabled
@@ -14,14 +15,15 @@ public class GamepadDirectionTest extends OpMode {
 
     @Override
     public void init() {
-        directionFix = new DirectionFix(GamepadUser.ONE);
+        directionFix = new DirectionFix(DirectionFixMode.EIGHT_DIRECTIONS);
     }
 
     @Override
     public void loop() {
-        telemetry.addData("x", directionFix.xSpeed);
-        telemetry.addData("y", directionFix.ySpeed);
-        telemetry.addData("a", directionFix.aSpeed);
+        Vector2D vector2D = directionFix.getDirection(gamepad1);
+        telemetry.addData("x", vector2D.x);
+        telemetry.addData("y", vector2D.y);
+        telemetry.addData("a", directionFix.getRotationSpeed(gamepad1));
 
     }
 }
